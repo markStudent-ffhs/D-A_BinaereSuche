@@ -22,56 +22,73 @@ public class BinSearch
 			}
 		}
 		
-		int offset = (array.length / 2);
-		//System.out.println(middle);
+		int index = (array.length / 2);
 		
-		return binS(array, offset, array.length -1, value);
+		return search(array, index, array.length -1, value);
 	}
 	
 	/**
-	 * search ohne das erstellen eines hilfs arrays
+	 * rekursive search ohne das erstellen eines hilfs arrays
 	 * @param array
+	 * @param index
 	 * @param offset
-	 * @param range
 	 * @param value
 	 * @return
 	 */
-	private static Pair binS(int[] array, int offset, int range, final int value)
+	private static Pair search(int[] array, int index, int offset, final int value)
 	{
 		
-		if(offset == 0 && array[0] != value || offset > range) {
+		//wenn der index 0 oder grösser als offset ist wurde nichts gefunden
+		if(index == 0 && array[0] != value || index > offset) {
 			return null;
 		}
-		
-		if(array[offset] < value) {
-			int incrementer = (range - offset) / 2; 
+
+		//Prüfen in welcher hälfte sich die zahl befinden könnte
+		// obere hälfte
+		if(array[index] < value) {
+			//die hälfte der oberen hälfte berechnen
+			int incrementer = (offset - index) / 2; 
 			if(incrementer == 0) {
 				incrementer = 1;
 			}
 			
-			offset += incrementer;
+			index += incrementer;
 			
-			return binS(array, offset, range, value);
-		} else if (array[offset] > value) {
-			range = offset - 1;
-			offset = offset / 2;
-			return binS(array, offset, range, value);
-		} else {
-			int lowerIndex = offset;
-			int upperIndex = offset;
+			return search(array, index, offset, value);
+		} 
+		//untere hälfte
+		else if (array[index] > value) {
+			//die hälfte der untern hälfte berechnen
+			offset = index - 1;
+			index = index / 2;
+			return search(array, index, offset, value);
+		} 
+		//value entspricht der zahl auf dem index
+		else {
+			int lowerIndex = index;
+			int upperIndex = index;
 			
+			//erstes vorkommen der zahl evaluieren
 			while(lowerIndex >= 0) {
+				//ist die zahl nicht mehr = value, abbrechen und index wieder um 1 inkrementieren
 				if(array[lowerIndex] != value) {
 					lowerIndex++;
 					break;
-				} else if(lowerIndex == 0) {
+				} 
+				//ist der index 0, ist das array durchlaufen
+				else if(lowerIndex == 0) {
 					break;
-				} else {
+				} 
+				//bei einer übereinstimmung, weiter im array
+				else {
 					lowerIndex--;
 				}
 			}
 			
+			//letzes vorkommen der zahl evaluieren
 			while(upperIndex <= array.length) {
+				//ist der index gleich der array länge ist das array durchlaufen
+				//ist die zahl nicht mehr = value, abbrechen index um 1 dekrimieren
 				if(upperIndex == array.length || array[upperIndex] != value) {
 					upperIndex--;
 					break;

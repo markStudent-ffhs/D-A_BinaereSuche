@@ -22,81 +22,51 @@ public class BinSearch
 			}
 		}
 		
-		int index = (array.length / 2);
-		
-		return search(array, index, array.length -1, value);
-	}
-	
-	/**
-	 * rekursive search ohne das erstellen eines hilfs arrays
-	 * @param array
-	 * @param index
-	 * @param offset
-	 * @param value
-	 * @return
-	 */
-	private static Pair search(int[] array, int index, int offset, final int value)
-	{
-		
-		//wenn der index 0 oder grösser als offset ist wurde nichts gefunden
-		if(index == 0 && array[0] != value || index > offset) {
+		int left = leftSearch(array, value, 0, array.length-1);
+		int right = rightSearch(array, value, 0, array.length-1);
+
+		if(left == -1 || right == -1) {
 			return null;
 		}
+		
+		return new Pair(left, right);
+	}
+	
+	private static int leftSearch(int[] array, int value, int min, int max) 
+	{
+	    if (min == max) {
+	    	if(array[min] == value) {
+	    		return min;
+	    	} else {
+	    		return -1;
+	    	}
+	    }
+	    
+	   	int mid = (min + max) / 2;
 
-		//Prüfen in welcher hälfte sich die zahl befinden könnte
-		// obere hälfte
-		if(array[index] < value) {
-			//die hälfte der oberen hälfte berechnen
-			int incrementer = (offset - index) / 2; 
-			if(incrementer == 0) {
-				incrementer = 1;
-			}
-			
-			index += incrementer;
-			
-			return search(array, index, offset, value);
-		} 
-		//untere hälfte
-		else if (array[index] > value) {
-			//die hälfte der untern hälfte berechnen
-			offset = index - 1;
-			index = index / 2;
-			return search(array, index, offset, value);
-		} 
-		//value entspricht der zahl auf dem index
-		else {
-			int lowerIndex = index;
-			int upperIndex = index;
-			
-			//erstes vorkommen der zahl evaluieren
-			while(lowerIndex >= 0) {
-				//ist die zahl nicht mehr = value, abbrechen und index wieder um 1 inkrementieren
-				if(array[lowerIndex] != value) {
-					lowerIndex++;
-					break;
-				} 
-				//ist der index 0, ist das array durchlaufen
-				else if(lowerIndex == 0) {
-					break;
-				} 
-				//bei einer übereinstimmung, weiter im array
-				else {
-					lowerIndex--;
-				}
-			}
-			
-			//letzes vorkommen der zahl evaluieren
-			while(upperIndex <= array.length) {
-				//ist der index gleich der array länge ist das array durchlaufen
-				//ist die zahl nicht mehr = value, abbrechen index um 1 dekrimieren
-				if(upperIndex == array.length || array[upperIndex] != value) {
-					upperIndex--;
-					break;
-				} else
-					upperIndex++;
-			}
-						
-			return new Pair(lowerIndex, upperIndex);
-		}
+	    if (array[mid] < value) {
+	    	return leftSearch(array, value, mid + 1, max);
+	    } else {
+	    	return leftSearch(array, value, min, mid);
+	    }
+	}
+	
+	private static int rightSearch(int[] array, int value, int min, int max) 
+	{
+	    if (min == max) {
+	    	if(array[min] == value) {
+	    		return min;
+	    	} else {
+	    		return -1;
+	    	}
+	    }
+	    
+	   	int mid = (min + max + 1) / 2;
+
+	    if (array[mid] > value) {
+	    	return rightSearch(array, value, min, mid -1);
+	    } else {
+	    	return rightSearch(array, value, mid, max);
+	    }
 	}
 }

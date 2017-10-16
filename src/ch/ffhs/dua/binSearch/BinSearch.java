@@ -34,25 +34,6 @@ public class BinSearch
 		return new Pair(left, right);
 	}
 	
-	private static int leftSearch(int[] array, int value, int min, int max) 
-	{
-	    if (min >= max) {
-	    	if(array[min] == value) {
-	    		return min;
-	    	} else {
-	    		return -1;
-	    	}
-	    }
-	    
-	   	int mid = (min + max) / 2;
-
-	    if (array[mid] < value) {
-	    	return leftSearch(array, value, mid + 1, max);
-	    } else {
-	    	return leftSearch(array, value, min, mid);
-	    }
-	}
-	
 	private static int rightSearch(int[] array, int value, int min, int max) 
 	{
 	    if (min == max) {
@@ -72,4 +53,25 @@ public class BinSearch
 	    }
 	    
 	}
+	
+	private static int leftSearch(int[] array, int value, int min, int max) 
+	{
+	    if (min >= max) {
+	    	if(array[min] == value) {
+	    		return min;
+	    	} else {
+	    		return -1;
+	    	}
+	    }
+	    
+	   	int mid = (min + max) / 2;
+
+	    if (array[mid] < value) {
+	    	return leftSearch(array, value, mid + 1, max);
+	    } else {
+	    	return leftSearch(array, value, min, mid);
+	    }
+	}
+	
+	
 }

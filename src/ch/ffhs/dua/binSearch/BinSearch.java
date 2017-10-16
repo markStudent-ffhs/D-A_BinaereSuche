@@ -22,8 +22,10 @@ public class BinSearch
 			}
 		}
 		
-		int left = leftSearch(array, value, 0, array.length-1);
+		//get the most right match
 		int right = rightSearch(array, value, 0, array.length-1);
+		//get the most left match. shorten the search by using the most right match as highest index
+		int left = leftSearch(array, value, 0, right);
 
 		if(left == -1 || right == -1) {
 			return null;
@@ -34,7 +36,7 @@ public class BinSearch
 	
 	private static int leftSearch(int[] array, int value, int min, int max) 
 	{
-	    if (min == max) {
+	    if (min >= max) {
 	    	if(array[min] == value) {
 	    		return min;
 	    	} else {
@@ -68,5 +70,6 @@ public class BinSearch
 	    } else {
 	    	return rightSearch(array, value, mid, max);
 	    }
+	    
 	}
 }

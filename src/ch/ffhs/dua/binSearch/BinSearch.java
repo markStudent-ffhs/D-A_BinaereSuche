@@ -24,12 +24,12 @@ public class BinSearch
 		
 		//get the most right match
 		int right = rightSearch(array, value, 0, array.length-1);
-		//get the most left match. shorten the search by using the most right match as highest index
-		int left = leftSearch(array, value, 0, right);
-
-		if(left == -1 || right == -1) {
+		//if right is not found, we also do not find anything in left = value does not exist in array
+		if(right == -1 ) {
 			return null;
 		}
+		//get the most left match. shorten the search by using the most right match as highest index
+		int left = leftSearch(array, value, 0, right);
 		
 		return new Pair(left, right);
 	}
